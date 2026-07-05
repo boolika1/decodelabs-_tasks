@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+</head>
+<body>
+    <div style="direction: rtl;"> 
+        <h3>أنصحك بعد ما تخلص المشروع ده تضيف له ميزات زي:<br>
+✅ البحث عن مهمة.<br>
+✅ فلترة المهام (الكل / المنجزة / غير المنجزة).<br>
+✅ حفظ وقت إنشاء المهمة بشكل منسق.<br>
+✅ سحب وإفلات (Drag & Drop) لترتيب المهام.<br>
+
+دي هتخلي المشروع قوي جدًا لو حطيته في معرض أعمالك (Portfolio).</h3>
+        
+        <div class="container" >
+            <div class="tasks-box" >
+                <div style="display: flex; justify-content:space-between; align-items: center; ">
+                    <button   class="btn" id="sr" style="background-color: rgb(222, 6, 6); color:rgb(255, 255, 255);">
+                        <span class="material-symbols-outlined" style="width: 21px;  margin-top: 2px;">
+                            search
+                        </span>
+                    </button>
+                    <button   class="btn" id="filter" style="background-color: rgb(222, 6, 6); color:rgb(255, 255, 255);">
+                        <span class="material-symbols-outlined" style="width: 21px;  margin-top: 2px;">
+                            sort
+                        </span>
+                    </button>
+                </div>
+
+            <div class="" style="width: 100%; text-align: center; background-color: rgba(83, 255, 255, 0.614);">
+                <h1 style="display: inline;">مهامي</h1>
+                <button  class="btn" id="add" style="float:right;  margin-top: 4px;  margin-right: 4px;">+</button>
+            </div>
+
+            <!--tasks-->
+            <div id="tasks" style="padding: 20px;">
+                <!--Task-->
+                <div id="task" >
+                    <div style="width: 70%;margin-right: 4px;">
+                        <h1>boolika</h1>
+                        <div>
+                            <span>
+                                10/10/2010
+                            </span>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content:space-between; align-items: center; width: 20%;">
+                        <button class="btn" id="done" style="background-color:rgb(0, 166, 39); color:rgb(255, 255, 255);">
+                            <span class="material-symbols-outlined" style="width: 21px;  margin-top: 2px;">
+                                done_all
+                            </span>
+                        </button>
+                        <button class="btn" id="edit" style="background-color:rgb(28, 86, 246); color:rgb(255, 255, 255);">
+                            <span class="material-symbols-outlined" style="width: 21px;  margin-top: 2px;">
+                            edit
+                        </span>
+                        </button>
+                    </div>
+                
+                
+                
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+    
+
+body{
+    font-family: "Rubik", sans-serif;
+    background-image:url(/ترميز/bgf.jpg);
+    
+}
+#task{
+display: flex; 
+background-color: rgba(152, 152, 152, 0.431);
+border-bottom: solid black 2px;
+border-radius: 20px;
+padding: 4px;
+transition: box-shadow 0.2s;
+
+}
+#donee{
+display: flex; 
+background-color: rgba(0, 254, 21, 0.521);
+border-bottom: solid black 2px;
+border-radius: 20px;
+padding: 4px;
+transition: box-shadow 0.2s;
+
+} 
+#sr{
+display: flex; 
+background-color: rgb(220, 254, 0);
+border-bottom: solid black 2px;
+border-radius: 20px;
+padding: 4px;
+transition: box-shadow 0.2s;
+}
+.task:hover {
+    box-shadow: 0px 3px 15px rgba(97, 97, 97, 0.77);
+    scale: 102%;
+}
+.tasks-box{
+    background-color: rgba(254, 171, 171, 0.469);
+    width: 60%;
+    margin: 130px;
+}
+button{
+    font-size: 20px;
+    border: none;
+}
+.btn{
+    width: 30px;
+    height: 30px;
+    border-radius: 30%;
+    background-color: rgb(171, 5, 5);
+
+}
+</style>
+<script> 
+    let tasks = []
+function fill()
+{
+    let i=0
+        document.getElementById("tasks").innerHTML=""
+        for (let task of tasks){
+    document.getElementById("tasks").innerHTML+=
+    `
+        <div id="${task.srs?'sr':task.isdone?'donee':'task'}" >
+                    <div style="width: 70%;margin-right: 4px;">
+                        <h1>${task.title}</h1>
+                        <div>
+                            <span>
+                                ${task.date}
+                            </span>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content:space-between; align-items: center; width: 20%;">
+                        <button onclick="del(${i})" class="btn" id="del" style="background-color: rgb(222, 6, 6); color:rgb(255, 255, 255);">
+                            <span class="material-symbols-outlined" style="width: 21px;  margin-top: 2px;">
+                                delete
+                            </span>
+                        </button>
+                        ${task.isdone?`
+                        <button onclick="done(${i})" class="btn" id="done" style="background-color:rgb(171, 5, 5); color:rgb(255, 255, 255);">
+                            <span class="material-symbols-outlined" style="width: 21px;  margin-top: 2px;">
+                                remove_done
+                            </span>
+                        </button>
+                        `:`
+                        <button onclick="done(${i})" class="btn" id="done" style="background-color:rgb(0, 166, 39); color:rgb(255, 255, 255);">
+                            <span class="material-symbols-outlined" style="width: 21px;  margin-top: 2px;">
+                                done_all
+                            </span>
+                        </button>
+                        `}
+                        <button onclick="edit(${i})" class="btn" id="edit" style="background-color:rgb(28, 86, 246); color:rgb(255, 255, 255);">
+                            <span class="material-symbols-outlined" style="width: 21px;  margin-top: 2px;">
+                            edit
+                        </span>
+                        </button>
+                    </div> 
+        </div>
+    `
+i++
+    }
+}
+function gls(){
+    let gettask = localStorage.getItem("task");
+    if(gettask != null){
+        tasks = JSON.parse(gettask);
+    }
+}
+gls(); fill();
+document.getElementById("add").addEventListener("click",function(){
+    let now = new Date();
+
+    let date = now.toLocaleDateString("ar-EG");
+    let time = now.toLocaleTimeString("ar-EG");
+    let add = prompt("عايز ايه");
+
+if(add != null && add.trim() != ""){
+    let obj = {
+                "title":add,
+                "date":date+" | "+time,
+                "isdone":false,
+                "srs":false,
+            }
+            tasks.push(obj)
+    sls();
+    fill();
+}
+})
+
+function del(i){
+    let t=tasks[i]
+let con =confirm("هتمسح-> "+t.title)
+if(con){
+    tasks.splice(i,1)
+    sls()
+    fill()
+}
+}
+
+function edit(i){
+    let editation = prompt("ايه الجديد");
+    if(editation != null && editation.trim() != ""){
+        tasks[i].title = editation;
+        sls();
+        fill();
+    }
+
+
+}
+
+function done(i){
+    let t=tasks[i]
+    t.isdone=!t.isdone
+    sls()
+fill()
+}
+
+function sls(){
+    let settask =JSON.stringify(tasks)
+    localStorage.setItem("task",settask)
+}
+
+document.getElementById("sr").addEventListener("click" ,function(){
+let f =prompt("ايه اللي ضاع يعبيط")
+let r =tasks.find(task=>task.title === f)
+if(r){
+    r.srs=!r.srs
+    sls()
+    fill()
+}else{
+    alert("لا ضاعت يقريبي")
+}
+setTimeout(function () {
+    r.srs = false;
+    sls();
+    fill();
+}, 5000);
+})
+document.getElementById("filter").addEventListener("click" ,function(){
+    for(i=0;i<100;i++){
+        let r = tasks[i]
+        if(r.isdone){
+            alert(r.title)
+}
+}
+sls() 
+fill()
+
+})
+
+</script>
+</body>
+</html>
